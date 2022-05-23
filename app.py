@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
 import cv2 
 import numpy as np 
 from img_process_predict import img_live
@@ -9,6 +9,10 @@ import threading
 
 with open('SVC_model.pkl', 'rb') as f:
     svm = pickle.load(f)
+
+RTC_CONFIGURATION = RTCConfiguration(
+    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+)
 
 st.title("Signals")
 
@@ -36,6 +40,7 @@ class VideoProcessor(VideoProcessorBase):
 webrtc_streamer(
         key="example",
         video_processor_factory=VideoProcessor,
+        rtc_configuration=RTC_CONFIGURATION,
         media_stream_constraints={
             "video": True,
             "audio": False
