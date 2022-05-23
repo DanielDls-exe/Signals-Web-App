@@ -1,7 +1,7 @@
 av
 mediapipe
-numpy
 pandas
 scikit_learn
 streamlit_webrtc
+numpy
 opencv-python-headless
