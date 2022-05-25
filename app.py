@@ -10,6 +10,15 @@ import threading
 with open('SVC_model.pkl', 'rb') as f:
     svm = pickle.load(f)
 
+RTC_CONFIGURATION = RTCConfiguration(
+    {
+      "RTCIceServer": [{
+        "urls": ["turn:numb.viagenie.ca"],
+        "username": "webrtc@live.com",
+        "credential": "muazkh",
+      }]
+    }
+)
 
 st.title("Signals")
 
@@ -37,9 +46,7 @@ class VideoProcessor(VideoProcessorBase):
 webrtc_streamer(
         key="example",
         video_processor_factory=VideoProcessor,
-        rtc_configuration={  # Add this config
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-        },
+        rtc_configuration= RTC_CONFIGURATION ,
         media_stream_constraints={
             "video": True,
             "audio": False
