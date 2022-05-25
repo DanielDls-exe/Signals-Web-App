@@ -11,13 +11,7 @@ with open('SVC_model.pkl', 'rb') as f:
     svm = pickle.load(f)
 
 RTC_CONFIGURATION = RTCConfiguration(
-    {
-      "RTCIceServer": [{
-        "urls": "turn:openrelay.metered.ca:80",
-        "username": "openrelayproject",
-        "credential": "openrelayproject",
-      }]
-    }
+    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 )
 
 st.title("Signals")
