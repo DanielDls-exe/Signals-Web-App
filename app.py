@@ -13,9 +13,9 @@ with open('SVC_model.pkl', 'rb') as f:
 RTC_CONFIGURATION = RTCConfiguration(
     {
       "RTCIceServer": [{
-        "urls": ["turn:numb.viagenie.ca"],
-        "username": "webrtc@live.com",
-        "credential": "muazkh",
+        "urls": "turn:openrelay.metered.ca:80",
+        "username": "openrelayproject",
+        "credential": "openrelayproject",
       }]
     }
 )
