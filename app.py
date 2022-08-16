@@ -41,7 +41,7 @@ if select == "Streaming":
                 frame = cv2.putText(frame, letter, position, font, 
                                 fontScale, color, thickness, cv2.LINE_AA)
 
-                return av.VideoFrame.from_ndarray(frame)
+                return letter
 
     webrtc_streamer(
         key="example",
