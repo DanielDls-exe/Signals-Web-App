@@ -7,21 +7,15 @@ import pickle
 import av
 import threading
 
-
-with open('SVC_model.pkl', 'rb') as f:
-    svm = pickle.load(f)
-
-RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-)
-
-with open('SVC_model.pkl', 'rb') as f:
-    svm = pickle.load(f)
-
 st.title("Signals")
 select = st.sidebar.selectbox("What do you want?",["Streaming", "Upload Image"])
 
 if select == "Streaming":
+    with open('SVC_model.pkl', 'rb') as f:
+        svm = pickle.load(f)
+    RTC_CONFIGURATION = RTCConfiguration(
+    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+)
     class VideoTransformerBaser(VideoTransformerBase):
             def __init__(self):
                 self.model_lock = threading.Lock()
@@ -52,6 +46,8 @@ if select == "Streaming":
         async_processing=True,
     )
 elif select == "Upload Image":
+    with open('SVC_model.pkl', 'rb') as f:
+        svm = pickle.load(f)
     st.subheader("Upload Image")
     frame = st.file_uploader("Upload Image", type=["jpg", "png"])
     if frame is not None:
