@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration, WebRtcMode
 import cv2 
 import numpy as np 
 from img_process_predict import img_live
@@ -22,7 +22,7 @@ st.title("Signals")
 select = st.sidebar.selectbox("What do you want?",["Streaming", "Upload Image"])
 
 if select == "Streaming":
-    class VideoProcessor(VideoProcessorBase):
+    class VideoTransformerBaser(VideoTransformerBase):
             def __init__(self):
                 self.model_lock = threading.Lock()
 
@@ -37,20 +37,19 @@ if select == "Streaming":
                 color = (0, 0, 0)
                 thickness = 5
                 letter = str(y_pred[0])
-                frame = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                frame = cv2.putText(frame, letter, position, font, 
+                cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                cv2.putText(frame, letter, position, font, 
                                 fontScale, color, thickness, cv2.LINE_AA)
 
                 return letter
 
-    webrtc_streamer(
-        key="example",
-        video_processor_factory=VideoProcessor,
-        rtc_configuration= RTC_CONFIGURATION ,
-        media_stream_constraints={
-            "video": True,
-            "audio": False
-        }
+    webrtc_ctx = webrtc_streamer(
+        key="object-detection",
+        mode=WebRtcMode.SENDRECV,
+        rtc_configuration=RTC_CONFIGURATION,
+        media_stream_constraints={"video": True, "audio": False},
+        video_processor_factory=VideoTransformerBase,
+        async_processing=True,
     )
 elif select == "Upload Image":
     st.subheader("Upload Image")
